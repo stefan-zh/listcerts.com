@@ -1,25 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {ChangeEvent, FormEvent, useState} from 'react';
+import {Button, Container, Form, InputGroup, Navbar} from "react-bootstrap";
 import './App.css';
 
 function App() {
+  const [url, setUrl] = useState<string>();
+  const onInput = (input: ChangeEvent<HTMLInputElement>) => {
+    setUrl(input.target.value);
+  }
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(url);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar bg="light">
+        <Container>
+          <Navbar.Brand>listcerts.com</Navbar.Brand>
+        </Container>
+      </Navbar>
+      <Container>
+        <Form onSubmit={onSubmit}>
+          <InputGroup className="search">
+            <Form.Control size="lg" type="text" onChange={onInput}  placeholder="https://www.example.com" />
+            <InputGroup.Text>
+              <Button id="submit" variant="light" type="submit">Search</Button>
+            </InputGroup.Text>
+          </InputGroup>
+        </Form>
+        <div>{url}</div>
+      </Container>
+    </>
   );
 }
 
