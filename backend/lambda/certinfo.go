@@ -74,7 +74,7 @@ type Certificate struct {
 	SHA256            string        `json:"sha256"`
 	SHA1              string        `json:"sha1"`
 	IsCA              bool          `json:"ca"`
-	KeyUsage          string        `json:"key_usage,omitempty"`
+	KeyUsage          []string      `json:"key_usage,omitempty"`
 	ExtendedKeyUsages []string      `json:"extended_key_usages,omitempty"`
 	SKI               string        `json:"subject_key_id"`
 	AKI               string        `json:"authority_key_id"`
@@ -118,7 +118,7 @@ func ParseCertificate(cert *x509.Certificate) *Certificate {
 		SHA256:            sha256hex(cert.Raw),
 		SHA1:              sha1hex(cert.Raw),
 		IsCA:              cert.IsCA,
-		KeyUsage:          KeyUsageToString[cert.KeyUsage],
+		KeyUsage:          keyUsageToString(cert.KeyUsage),
 		ExtendedKeyUsages: extKeyUsagesToString(cert.ExtKeyUsage),
 		SKI:               formatID(cert.SubjectKeyId),
 		AKI:               formatID(cert.AuthorityKeyId),
@@ -191,6 +191,16 @@ func formatID(id []byte) string {
 		s += fmt.Sprintf("%02X", c)
 	}
 	return s
+}
+
+func keyUsageToString(keyUsage x509.KeyUsage) []string {
+	var usages []string
+	for usage, s := range KeyUsageToString {
+		if usage & keyUsage != 0 {
+			usages = append(usages, s)
+		}
+	}
+	return usages
 }
 
 func extKeyUsagesToString(keyUsages []x509.ExtKeyUsage) []string {
