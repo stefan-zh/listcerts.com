@@ -1,6 +1,6 @@
 .info-group {
     display: grid;
-    grid-template-columns: minmax(8em, 25%) minmax(50%, 75%);
+    grid-template-columns: minmax(7em, 25%) minmax(50%, 75%);
     grid-gap: 0 2em;
     padding: 1.75em 30px;
     border-top: 1px solid #dee2e6;

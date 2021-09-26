@@ -41,7 +41,7 @@ export const App = () => {
     <>
       <Navbar bg="light">
         <Container>
-          <Navbar.Brand>listcerts.com</Navbar.Brand>
+          <Navbar.Brand href="#">listcerts.com</Navbar.Brand>
         </Container>
       </Navbar>
       <Container>
@@ -77,6 +77,9 @@ export const App = () => {
         </Tab.Container>
         }
       </Container>
+      <div className="footer">
+        <span>© 2021 listcerts.com by <a href="https://stefanzh.com" target="_blank" rel="noreferrer">Stefan Zhelyazkov</a></span>
+      </div>
     </>
   );
 };

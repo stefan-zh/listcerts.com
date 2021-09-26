@@ -92,7 +92,7 @@ const toSANs = (sans: string[]) => (
     <span className="info-group-title">Subject Alt Names</span>
     <div />
     {sans.map((subAltName) => (
-      <div className="info-item">
+      <div key={subAltName} className="info-item">
         <label>DNS Name</label>
         <span>{subAltName}</span>
       </div>
@@ -224,7 +224,7 @@ const toCrlEndpoints = (endpoints: string[]) => (
     <span className="info-group-title">CRL Endpoints</span>
     <div />
     {endpoints.map((ep) => (
-      <div className="info-item">
+      <div key={ep} className="info-item">
         <label>Distribution Point</label>
         <a href={ep} target="_blank" rel="noreferrer">{ep}</a>
       </div>
@@ -238,7 +238,7 @@ const toOcspServer = (servers: string[]) => (
     <span className="info-group-title">OCSP Server</span>
     <div />
     {servers.map((server) => (
-      <div className="info-item">
+      <div key={server} className="info-item">
         <label>Location</label>
         <a href={server} target="_blank" rel="noreferrer">{server}</a>
       </div>
@@ -252,7 +252,7 @@ const toCaIssuers = (caIssuers: string[]) => (
     <span className="info-group-title">CA Issuers</span>
     <div />
     {caIssuers.map((iss) => (
-      <div className="info-item">
+      <div key={iss} className="info-item">
         <label>Location</label>
         <a href={iss} target="_blank" rel="noreferrer">{iss}</a>
       </div>
