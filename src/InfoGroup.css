@@ -1,0 +1,24 @@
+.info-group {
+    display: grid;
+    grid-template-columns: minmax(8em, 25%) minmax(50%, 75%);
+    grid-gap: 0 2em;
+    padding: 1.75em 30px;
+    border-top: 1px solid #dee2e6;
+}
+
+.info-group-title {
+    font-size: 1em;
+    font-weight: 700;
+    text-align: end;
+    margin-block-end: 1em;
+}
+
+.info-item {
+    line-height: 30px;
+    display: contents;
+    word-break: break-word;
+}
+
+.info-item label {
+    text-align: end;
+}

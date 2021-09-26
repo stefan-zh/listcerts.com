@@ -68,7 +68,7 @@ export const App = () => {
           <Tab.Content>
             {certs.map((cert, idx) => (
               <Tab.Pane key={idx} eventKey={'cert-' + idx}>
-                <h2>{cert.subject.common_name}</h2>
+                <InfoGroup />
               </Tab.Pane>
             ))}
           </Tab.Content>
