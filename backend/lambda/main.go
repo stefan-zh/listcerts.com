@@ -42,12 +42,7 @@ func HandleRequest(_ context.Context, req Request) (Response, error) {
 	return Response{
 		StatusCode: 200,
 		Body:       string(certsJson),
-		Headers: map[string]string{
-			"Content-Type":                 "application/json",
-			"Access-Control-Allow-Origin":  "*",
-			"Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
-			"Access-Control-Allow-Headers": "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization",
-		},
+		Headers:    map[string]string{"Content-Type": "application/json"},
 	}, nil
 }
 
