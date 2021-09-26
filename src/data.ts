@@ -3,7 +3,7 @@ export interface Certificate {
   issuer: Name;
   not_before: Date;
   not_after: Date;
-  sans: string[];
+  sans: string[] | undefined;
   pub_key_info: PublicKey;
   misc: Miscellaneous;
   sha256: string;
@@ -18,7 +18,7 @@ export interface Certificate {
   issuing_cert_url: string[];
 }
 
-interface Name {
+export interface Name {
   country: string;
   state_province: string;
   locality: string;
@@ -27,13 +27,13 @@ interface Name {
   common_name: string;
 }
 
-interface PublicKey {
+export interface PublicKey {
   algorithm: string;
   size: number;
   value: string;
 }
 
-interface Miscellaneous {
+export interface Miscellaneous {
   serial_number: string;
   signature_algorithm: string;
   version: number;

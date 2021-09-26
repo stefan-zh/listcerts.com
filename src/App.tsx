@@ -61,14 +61,16 @@ export const App = () => {
           <Nav justify variant="tabs" defaultActiveKey="cert-0">
             {certs.map((cert, idx) => (
               <Nav.Item key={idx}>
-                <Nav.Link eventKey={'cert-' + idx}>{cert.subject.common_name}</Nav.Link>
+                <Nav.Link eventKey={'cert-' + idx}>
+                  {cert.subject.common_name}
+                </Nav.Link>
               </Nav.Item>
             ))}
           </Nav>
           <Tab.Content>
             {certs.map((cert, idx) => (
               <Tab.Pane key={idx} eventKey={'cert-' + idx}>
-                <InfoGroup />
+                <InfoGroup cert={cert} />
               </Tab.Pane>
             ))}
           </Tab.Content>

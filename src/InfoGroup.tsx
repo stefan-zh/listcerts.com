@@ -1,124 +1,16 @@
 import React from 'react';
 import './InfoGroup.css';
+import {Certificate, Miscellaneous, Name, PublicKey} from "./data";
 
-export const InfoGroup = () => (
+export const InfoGroup = ({cert}: {cert: Certificate}) => (
   <>
-    <div className="info-group">
-      <span className="info-group-title">Subject Name</span>
-      <div />
-      <div className="info-item">
-        <label>Country</label>
-        <span>US</span>
-      </div>
-      <div className="info-item">
-        <label>State/Province</label>
-        <span>California</span>
-      </div>
-      <div className="info-item">
-        <label>Locality</label>
-        <span>San Francisco</span>
-      </div>
-      <div className="info-item">
-        <label>Organization</label>
-        <span>Cloudflare, Inc</span>
-      </div>
-      <div className="info-item">
-        <label>Common Name</label>
-        <span>sni.cloudflaressl.com</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">Issuer Name</span>
-      <div />
-      <div className="info-item">
-        <label>Country</label>
-        <span>US</span>
-      </div>
-      <div className="info-item">
-        <label>Organization</label>
-        <span>Cloudflare, Inc.</span>
-      </div>
-      <div className="info-item">
-        <label>Common Name</label>
-        <span>Cloudflare Inc ECC CA-3</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">Validity</span>
-      <div />
-      <div className="info-item">
-        <label>Not Before</label>
-        <span>Wed, 16 Jun 2021 00:00:00 GMT</span>
-      </div>
-      <div className="info-item">
-        <label>Not After</label>
-        <span>Wed, 15 Jun 2022 23:59:59 GMT</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">Subject Alt Names</span>
-      <div />
-      <div className="info-item">
-        <label>DNS Name</label>
-        <span>*.census2021.bg</span>
-      </div>
-      <div className="info-item">
-        <label>DNS Name</label>
-        <span>sni.cloudflaressl.com</span>
-      </div>
-      <div className="info-item">
-        <label>DNS Name</label>
-        <span>census2021.bg</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">Public Key Info</span>
-      <div />
-      <div className="info-item">
-        <label>Algorithm</label>
-        <span>Elliptic Curve</span>
-      </div>
-      <div className="info-item">
-        <label>Size</label>
-        <span>256</span>
-      </div>
-      <div className="info-item">
-        <label>Value</label>
-        <span>04:5F:4D:C0:F0:F7:13:3B:12:24:F1:FB:0C:D2:20:60:D3:9A:B0:05:F5:46:FD:55:D5:70:F6:17:A6:E8:B7:46:25:AB:BF:8B:FD:E8:E5:8C:87:B7:53:C2:17:29:4A:5F:6C:F8:D7:3E:7B:AE:E8:A8:AB:EB:FB:30:A7:DD:05:58:F5</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">Miscellaneous</span>
-      <div />
-      <div className="info-item">
-        <label>Serial Number</label>
-        <span>06:9C:A3:93:2E:6D:72:80:A3:49:66:62:EA:BE:69:3C</span>
-      </div>
-      <div className="info-item">
-        <label>Signature Algorithm</label>
-        <span>ECDSA with SHA-256</span>
-      </div>
-      <div className="info-item">
-        <label>Version</label>
-        <span>3</span>
-      </div>
-      <div className="info-item">
-        <label>Download</label>
-        <span>PEM</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">Fingerprints</span>
-      <div />
-      <div className="info-item">
-        <label>SHA-256</label>
-        <span>BF:29:67:74:7D:73:1B:81:52:FF:DE:AC:3B:F5:C5:5B:2B:FF:C7:E7:63:79:0C:2E:DE:D1:C6:2A:ED:F9:2F:58</span>
-      </div>
-      <div className="info-item">
-        <label>SHA-1</label>
-        <span>59:97:00:91:24:9D:11:B4:2F:78:35:61:21:9F:C1:BB:B9:30:66:D9</span>
-      </div>
-    </div>
+    {toNameGroup(cert.subject, "Subject")}
+    {toNameGroup(cert.issuer, "Issuer")}
+    {toValidity(cert)}
+    {cert.sans && toSANs(cert.sans)}
+    {toPubKeyInfo(cert.pub_key_info)}
+    {toMiscellaneous(cert.misc)}
+    {toFingerprints(cert)}
     <div className="info-group">
       <span className="info-group-title">Basic Constraints</span>
       <div />
@@ -188,4 +80,152 @@ export const InfoGroup = () => (
       </div>
     </div>
   </>
+);
+
+// Produces the JSX group information for a Name property
+const toNameGroup = (nameGroup: Name, nameStr: string) => (
+  <div className={"info-group " + nameStr}>
+    <span className="info-group-title">{nameStr} Name</span>
+    <div />
+    {nameGroup.country &&
+    <div className="info-item">
+      <label>Country</label>
+      <span>{nameGroup.country}</span>
+    </div>
+    }
+    {nameGroup.state_province &&
+    <div className="info-item">
+      <label>State/Province</label>
+      <span>{nameGroup.state_province}</span>
+    </div>
+    }
+    {nameGroup.locality &&
+    <div className="info-item">
+      <label>Locality</label>
+      <span>{nameGroup.locality}</span>
+    </div>
+    }
+    {nameGroup.organization &&
+    <div className="info-item">
+      <label>Organization</label>
+      <span>{nameGroup.organization}</span>
+    </div>
+    }
+    {nameGroup.organizational_unit &&
+    <div className="info-item">
+      <label>Organizational Unit</label>
+      <span>{nameGroup.organizational_unit}</span>
+    </div>
+    }
+    {nameGroup.common_name &&
+    <div className="info-item">
+      <label>Common Name</label>
+      <span>{nameGroup.common_name}</span>
+    </div>
+    }
+  </div>
+);
+
+// Produces the validity information
+const toValidity = (cert: Certificate) => (
+  <div className="info-group validity">
+    <span className="info-group-title">Validity</span>
+    <div />
+    {cert.not_before &&
+    <div className="info-item">
+      <label>Not Before</label>
+      <span>{new Date(cert.not_before).toUTCString()}</span>
+    </div>
+    }
+    {cert.not_after &&
+    <div className="info-item">
+      <label>Not After</label>
+      <span>{new Date(cert.not_after).toUTCString()}</span>
+    </div>
+    }
+  </div>
+);
+
+// Produces the Subject Alt Names information
+const toSANs = (sans: string[]) => (
+  <div className="info-group sans">
+    <span className="info-group-title">Subject Alt Names</span>
+    <div />
+    {sans.map((subAltName) => (
+      <div className="info-item">
+        <label>DNS Name</label>
+        <span>{subAltName}</span>
+      </div>
+    ))}
+  </div>
+);
+
+// Produces the Public Key information
+const toPubKeyInfo = (pubKey: PublicKey) => (
+  <div className="info-group pub-key">
+    <span className="info-group-title">Public Key Info</span>
+    <div />
+    {pubKey.algorithm &&
+    <div className="info-item">
+      <label>Algorithm</label>
+      <span>{pubKey.algorithm}</span>
+    </div>
+    }
+    {pubKey.size &&
+    <div className="info-item">
+      <label>Size</label>
+      <span>{pubKey.size}</span>
+    </div>
+    }
+    {pubKey.value &&
+    <div className="info-item">
+      <label>Value</label>
+      <span>{pubKey.value}</span>
+    </div>
+    }
+  </div>
+);
+
+// Produces the Miscellaneous information
+const toMiscellaneous = (misc: Miscellaneous) => {
+  const blob = new Blob([misc.pem]);
+  const url = URL.createObjectURL(blob);
+  return (
+    <div className="info-group miscellaneous">
+      <span className="info-group-title">Miscellaneous</span>
+      <div />
+      <div className="info-item">
+        <label>Serial Number</label>
+        <span>{misc.serial_number}</span>
+      </div>
+      <div className="info-item">
+        <label>Signature Algorithm</label>
+        <span>{misc.signature_algorithm}</span>
+      </div>
+      <div className="info-item">
+        <label>Version</label>
+        <span>{misc.version}</span>
+      </div>
+      <div className="info-item">
+        <label>Download</label>
+        <a href={url} download="crt.pem">PEM</a>
+      </div>
+    </div>
+  );
+}
+
+// Produces the Fingerprints information
+const toFingerprints = (cert: Certificate) => (
+  <div className="info-group fingerprints">
+    <span className="info-group-title">Fingerprints</span>
+    <div />
+    <div className="info-item">
+      <label>SHA-256</label>
+      <span>{cert.sha256}</span>
+    </div>
+    <div className="info-item">
+      <label>SHA-1</label>
+      <span>{cert.sha1}</span>
+    </div>
+  </div>
 );
