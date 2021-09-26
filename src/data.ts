@@ -9,13 +9,13 @@ export interface Certificate {
   sha256: string;
   sha1: string;
   ca: boolean;
-  key_usage: string;
-  extended_key_usages: string[];
+  key_usage: string[];
+  extended_key_usages: string[] | undefined;
   subject_key_id: string;
-  authority_key_id: string;
-  crl_endpoints: string[];
-  ocsp_server: string[];
-  issuing_cert_url: string[];
+  authority_key_id: string | undefined;
+  crl_endpoints: string[] | undefined;
+  ocsp_server: string[] | undefined;
+  issuing_cert_url: string[] | undefined;
 }
 
 export interface Name {

@@ -11,74 +11,14 @@ export const InfoGroup = ({cert}: {cert: Certificate}) => (
     {toPubKeyInfo(cert.pub_key_info)}
     {toMiscellaneous(cert.misc)}
     {toFingerprints(cert)}
-    <div className="info-group">
-      <span className="info-group-title">Basic Constraints</span>
-      <div />
-      <div className="info-item">
-        <label>Certificate Authority</label>
-        <span>No</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">Key Usages</span>
-      <div />
-      <div className="info-item">
-        <label>Purposes</label>
-        <span>Digital Signature</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">Extended Key Usages</span>
-      <div />
-      <div className="info-item">
-        <label>Purposes</label>
-        <span>Server Authentication, Client Authentication</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">Subject Key ID</span>
-      <div />
-      <div className="info-item">
-        <label>Key ID</label>
-        <span>F6:7D:09:40:C1:A7:65:6A:EC:C2:2A:D2:50:9A:5E:20:54:FA:4C:0C</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">Authority Key ID</span>
-      <div />
-      <div className="info-item">
-        <label>Key ID</label>
-        <span>A5:CE:37:EA:EB:B0:75:0E:94:67:88:B4:45:FA:D9:24:10:87:96:1F</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">CRL Endpoints</span>
-      <div />
-      <div className="info-item">
-        <label>Distribution Point</label>
-        <span>http://crl3.digicert.com/CloudflareIncECCCA-3.crl</span>
-      </div>
-      <div className="info-item">
-        <label>Distribution Point</label>
-        <span>http://crl4.digicert.com/CloudflareIncECCCA-3.crl</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">OCSP Server</span>
-      <div />
-      <div className="info-item">
-        <label>Location</label>
-        <span>http://ocsp.digicert.com</span>
-      </div>
-    </div>
-    <div className="info-group">
-      <span className="info-group-title">CA Issuers</span>
-      <div />
-      <div className="info-item">
-        <label>Location</label>
-        <span>http://cacerts.digicert.com/CloudflareIncECCCA-3.crt</span>
-      </div>
-    </div>
+    {toBasicConstraints(cert.ca)}
+    {toKeyUsages(cert.key_usage, "Key")}
+    {cert.extended_key_usages && toKeyUsages(cert.extended_key_usages, "Extended Key")}
+    {toSubKeyId(cert.subject_key_id)}
+    {cert.authority_key_id && toAuthKeyId(cert.authority_key_id)}
+    {cert.crl_endpoints && toCrlEndpoints(cert.crl_endpoints)}
+    {cert.ocsp_server && toOcspServer(cert.ocsp_server)}
+    {cert.issuing_cert_url && toCaIssuers(cert.issuing_cert_url)}
   </>
 );
 
@@ -227,5 +167,95 @@ const toFingerprints = (cert: Certificate) => (
       <label>SHA-1</label>
       <span>{cert.sha1}</span>
     </div>
+  </div>
+);
+
+// Produces the Basic Constraints information
+const toBasicConstraints = (isCa: boolean) => (
+  <div className="info-group basic-constraints">
+    <span className="info-group-title">Basic Constraints</span>
+    <div />
+    <div className="info-item">
+      <label>Certificate Authority</label>
+      <span>{isCa ? "Yes" : "No"}</span>
+    </div>
+  </div>
+);
+
+// Produces the Key Usages information
+const toKeyUsages = (keyUsages: string[], kind: string) => (
+  <div className={"info-group " + {kind} + "-usages"}>
+    <span className="info-group-title">{kind} Usages</span>
+    <div />
+    <div className="info-item">
+      <label>Purposes</label>
+      <span>{keyUsages.join(", ")}</span>
+    </div>
+  </div>
+);
+
+// Produces the Subject Key ID
+const toSubKeyId = (subKeyId: string) => (
+  <div className="info-group sub-key-id">
+    <span className="info-group-title">Subject Key ID</span>
+    <div />
+    <div className="info-item">
+      <label>Key ID</label>
+      <span>{subKeyId}</span>
+    </div>
+  </div>
+);
+
+// Produces the Authority Key ID
+const toAuthKeyId = (authKeyId: string) => (
+  <div className="info-group auth-key-id">
+    <span className="info-group-title">Authority Key ID</span>
+    <div />
+    <div className="info-item">
+      <label>Key ID</label>
+      <span>{authKeyId}</span>
+    </div>
+  </div>
+);
+
+// Produces the CRL Endpoints information
+const toCrlEndpoints = (endpoints: string[]) => (
+  <div className="info-group crl-endpoints">
+    <span className="info-group-title">CRL Endpoints</span>
+    <div />
+    {endpoints.map((ep) => (
+      <div className="info-item">
+        <label>Distribution Point</label>
+        <a href={ep} target="_blank" rel="noreferrer">{ep}</a>
+      </div>
+    ))}
+  </div>
+);
+
+// Produces the OCSP Servers information
+const toOcspServer = (servers: string[]) => (
+  <div className="info-group ocsp">
+    <span className="info-group-title">OCSP Server</span>
+    <div />
+    {servers.map((server) => (
+      <div className="info-item">
+        <label>Location</label>
+        <a href={server} target="_blank" rel="noreferrer">{server}</a>
+      </div>
+    ))}
+  </div>
+);
+
+// Produces the CA Issuers information
+const toCaIssuers = (caIssuers: string[]) => (
+  <div className="info-group ca-issuers">
+    <span className="info-group-title">CA Issuers</span>
+    <div />
+    {caIssuers.map((iss) => (
+      <div className="info-item">
+        <label>Location</label>
+        <a href={iss} target="_blank" rel="noreferrer">{iss}</a>
+      </div>
+    ))}
   </div>
 );
