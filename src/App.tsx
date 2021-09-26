@@ -1,5 +1,5 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
-import {Alert, Button, Container, Form, InputGroup, Navbar, Tab, Tabs} from "react-bootstrap";
+import {Alert, Button, Container, Form, InputGroup, Nav, Navbar} from "react-bootstrap";
 import './App.css';
 
 interface Certificate {
@@ -69,13 +69,13 @@ function App() {
           <Alert variant="danger">{err}</Alert>
         }
         {certs &&
-          <Tabs defaultActiveKey={0}>
+          <Nav justify variant="tabs" defaultActiveKey="cert-0">
             {certs.map((cert, idx) => (
-              <Tab key={idx} eventKey={idx} title={cert.subject.common_name}>
-                <div>{cert.subject.common_name}</div>
-              </Tab>
+              <Nav.Item key={idx}>
+                <Nav.Link eventKey={'cert-' + idx}>{cert.subject.common_name}</Nav.Link>
+              </Nav.Item>
             ))}
-          </Tabs>
+          </Nav>
         }
       </Container>
     </>
