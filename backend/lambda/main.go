@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"net/http"
+	"net/url"
 )
 
 type Request events.APIGatewayProxyRequest
@@ -22,9 +23,19 @@ type CertsResponse struct {
 
 func HandleRequest(_ context.Context, req Request) (Response, error) {
 	var domReq DomainRequest
+	// parse request
 	err := json.Unmarshal([]byte(req.Body), &domReq)
 	if err != nil {
 		return Response{StatusCode: 400, Body: fmt.Sprintf("Request %+v cannot be parsed because of: %s", req, err.Error())}, nil
+	}
+	// parse URL
+	u, err := url.Parse(domReq.Domain)
+	if err != nil {
+		return Response{StatusCode: 400, Body: fmt.Sprintf("The requested URL is not a valid URL: %s", domReq.Domain)}, nil
+	}
+	// check URL begins with https://
+	if u.Scheme != "https" {
+		return Response{StatusCode: 400, Body: "The requested URL must begin with https://"}, nil
 	}
 	client := &http.Client{}
 	domainResp, err := client.Get(domReq.Domain)
