@@ -37,17 +37,23 @@ export const App = () => {
     fetchCerts(url);
   }
 
+  const reset = () => {
+    setUrl("");
+    setCerts([]);
+    setErr("");
+  }
+
   return (
     <>
       <Navbar bg="light">
         <Container>
-          <Navbar.Brand href="#">listcerts.com</Navbar.Brand>
+          <Navbar.Brand href="#" onClick={reset}>listcerts.com</Navbar.Brand>
         </Container>
       </Navbar>
       <Container>
         <Form onSubmit={onSubmit}>
           <InputGroup className="search">
-            <Form.Control size="lg" type="text" onChange={onInput} placeholder="https://www.example.com"/>
+            <Form.Control size="lg" type="text" onChange={onInput} placeholder="https://www.example.com" value={url}/>
             <InputGroup.Text>
               <Button id="submit" variant="light" type="submit">Search</Button>
             </InputGroup.Text>
@@ -78,7 +84,16 @@ export const App = () => {
         }
       </Container>
       <div className="footer">
-        <span>© 2021 listcerts.com by <a href="https://stefanzh.com" target="_blank" rel="noreferrer">Stefan Zhelyazkov</a></span>
+        <Container>
+          <span>© 2021 listcerts.com by <a href="https://stefanzh.com" target="_blank" rel="noreferrer">Stefan Zhelyazkov</a></span>
+          <span>The website was created with <a href="https://create-react-app.dev/" target="_blank" rel="noreferrer">create-react-app</a> and
+            uses an <a href="https://aws.amazon.com/lambda/" target="_blank" rel="noreferrer">AWS Lambda</a> service
+            written in <a href="https://golang.org/" target="_blank" rel="noreferrer">Go</a>. The repository with
+            the source code is located on <a href="https://github.com/stefan-zh/listcerts.com" target="_blank" rel="noreferrer">GitHub</a>.
+            Inspired by <a href="https://www.mozilla.org/en-US/firefox/" target="_blank" rel="noreferrer">Firefox</a> from
+            the <a href="https://foundation.mozilla.org/" target="_blank" rel="noreferrer">Mozilla Foundation</a>.
+          </span>
+        </Container>
       </div>
     </>
   );
