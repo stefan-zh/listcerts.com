@@ -1,3 +1,13 @@
+.flex-box {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
 .search {
     margin: 50px 0;
 }
@@ -23,4 +33,6 @@
 
 .footer span {
     display: block;
+    color: #7d7d7d;
+    font-weight: 300;
 }

@@ -44,13 +44,13 @@ export const App = () => {
   }
 
   return (
-    <>
+    <div className="flex-box">
       <Navbar bg="light">
         <Container>
           <Navbar.Brand href="#" onClick={reset}>listcerts.com</Navbar.Brand>
         </Container>
       </Navbar>
-      <Container>
+      <Container className="content">
         <Form onSubmit={onSubmit}>
           <InputGroup className="search">
             <Form.Control size="lg" type="text" onChange={onInput} placeholder="https://www.example.com" value={url}/>
@@ -90,11 +90,12 @@ export const App = () => {
             uses an <a href="https://aws.amazon.com/lambda/" target="_blank" rel="noreferrer">AWS Lambda</a> service
             written in <a href="https://golang.org/" target="_blank" rel="noreferrer">Go</a>. The repository with
             the source code is located on <a href="https://github.com/stefan-zh/listcerts.com" target="_blank" rel="noreferrer">GitHub</a>.
-            Inspired by <a href="https://www.mozilla.org/en-US/firefox/" target="_blank" rel="noreferrer">Firefox</a> from
+          </span>
+          <span>Inspired by <a href="https://www.mozilla.org/en-US/firefox/" target="_blank" rel="noreferrer">Firefox</a> from
             the <a href="https://foundation.mozilla.org/" target="_blank" rel="noreferrer">Mozilla Foundation</a>.
           </span>
         </Container>
       </div>
-    </>
+    </div>
   );
 };
