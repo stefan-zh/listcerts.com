@@ -88,8 +88,9 @@ export const App = () => {
           <span>© 2021 listcerts.com by <a href="https://stefanzh.com" target="_blank" rel="noreferrer">Stefan Zhelyazkov</a></span>
           <span>The website was created with <a href="https://create-react-app.dev/" target="_blank" rel="noreferrer">create-react-app</a> and
             uses an <a href="https://aws.amazon.com/lambda/" target="_blank" rel="noreferrer">AWS Lambda</a> service
-            written in <a href="https://golang.org/" target="_blank" rel="noreferrer">Go</a>. The repository with
-            the source code is located on <a href="https://github.com/stefan-zh/listcerts.com" target="_blank" rel="noreferrer">GitHub</a>.
+            written in <a href="https://golang.org/" target="_blank" rel="noreferrer">Go</a>. The UI is built
+            with <a href="https://react-bootstrap.github.io/" target="_blank" rel="noreferrer">React Bootstrap</a>. The repository
+            with the source code is located on <a href="https://github.com/stefan-zh/listcerts.com" target="_blank" rel="noreferrer">GitHub</a>.
           </span>
           <span>Inspired by <a href="https://www.mozilla.org/en-US/firefox/" target="_blank" rel="noreferrer">Firefox</a> from
             the <a href="https://foundation.mozilla.org/" target="_blank" rel="noreferrer">Mozilla Foundation</a>.
