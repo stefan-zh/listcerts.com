@@ -43,11 +43,9 @@ func HandleRequest(_ context.Context, req Request) (Response, error) {
 		return Response{StatusCode: 404, Body: err.Error()}, nil
 	}
 	resp := CertsResponse{Certs: []Certificate{}}
-	for _, chain := range domainResp.TLS.VerifiedChains {
-		for _, cert := range chain {
-			c := ParseCertificate(cert)
-			resp.Certs = append(resp.Certs, *c)
-		}
+	for _, cert := range domainResp.TLS.VerifiedChains[0] {
+		c := ParseCertificate(cert)
+		resp.Certs = append(resp.Certs, *c)
 	}
 	certsJson, _ := json.Marshal(resp)
 	return Response{

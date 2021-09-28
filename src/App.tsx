@@ -85,7 +85,7 @@ export const App = () => {
       </Container>
       <div className="footer">
         <Container>
-          <span>© 2021 listcerts.com by <a href="https://stefanzh.com" target="_blank" rel="noreferrer">Stefan Zhelyazkov</a></span>
+          <span>© {new Date().getFullYear()} listcerts.com by <a href="https://stefanzh.com" target="_blank" rel="noreferrer">Stefan Zhelyazkov</a></span>
           <span>The website was created with <a href="https://create-react-app.dev/" target="_blank" rel="noreferrer">create-react-app</a> and
             uses an <a href="https://aws.amazon.com/lambda/" target="_blank" rel="noreferrer">AWS Lambda</a> service
             written in <a href="https://golang.org/" target="_blank" rel="noreferrer">Go</a>. The UI is built

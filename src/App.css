@@ -36,3 +36,7 @@
     color: #7d7d7d;
     font-weight: 300;
 }
+
+.footer a {
+    text-decoration: none;
+}

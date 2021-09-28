@@ -1,46 +1,45 @@
-# Getting Started with Create React App
+## listcerts.com
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The idea for this website came from the fact that there isn't a good place online (or I couldn't easily find one), 
+where one can see the SSL certificates used by a website in an HTTPS connection.
 
-## Available Scripts
+Chrome, Firefox, and Edge all provide ways for everyone to view the SSL certificates in the browser, but each of them 
+displays the certificates differently. I believe that for most people certificate information is difficult to read, 
+and when that is paired with a complex presentation, it becomes nearly impossible to comprehend it. Which is why 
+it's important to have a clean design. In my opinion, Firefox does this best in their browser, and this project is 
+largely inspired by that.
 
-In the project directory, you can run:
+## How to start this project locally
 
-### `npm start`
+The front end of this project is built with [create-react-app](https://create-react-app.dev). If you have Node installed
+locally, you can run this app by typing `npm start` in the terminal. You can access [http://localhost:3000](http://localhost:3000) 
+to view it in the browser.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The page will reload if you make edits, and you will also see any lint errors in the console.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Technologies
 
-### `npm test`
+### Front end
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- I used [Create React App](https://create-react-app.dev) for bootstrapping a [React](https://reactjs.org/) front end. 
+The code is strongly typed with Typescript.
+- The UI is built with [React Bootstrap](https://react-bootstrap.github.io/) components.
 
-### `npm run build`
+### Back end
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- The back end is written in [Go](https://golang.org/). It is executed by an AWS Lambda function.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Hosting
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- The front end is hosted on [AWS S3](https://aws.amazon.com/s3/) as static content.
+- The back end consists of an API endpoint provided by [API Gateway](https://aws.amazon.com/api-gateway/), which is
+linked to an [AWS Lambda](https://aws.amazon.com/lambda/) function, and executes it on each request.
+- The domains and the DNS records are managed by [AWS Route53](https://aws.amazon.com/route53/).
+- The SSL certificates for HTTPS are provided by [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/).
+- An [AWS CloudFront](https://aws.amazon.com/cloudfront/) distribution is the link between the Route53 DNS records,
+the SSL certificate, and the S3 bucket.
 
-### `npm run eject`
+### Resources
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+If you'd like to learn how to host a static website yourself on AWS S3 with all of the tooling above, I highly
+recommend this blog post, which helped me a lot in the hosting process: https://towardsdatascience.com/static-hosting-with-ssl-on-s3-a4b66fb7cd00
