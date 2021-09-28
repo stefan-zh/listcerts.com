@@ -32,7 +32,7 @@ The code is strongly typed with Typescript.
 ### Hosting
 
 - The front end is hosted on [AWS S3](https://aws.amazon.com/s3/) as static content.
-- The back end consists of an API endpoint provided by [API Gateway](https://aws.amazon.com/api-gateway/), which is
+- The back end consists of an API endpoint provided by [AWS API Gateway](https://aws.amazon.com/api-gateway/), which is
 linked to an [AWS Lambda](https://aws.amazon.com/lambda/) function, and executes it on each request.
 - The domains and the DNS records are managed by [AWS Route53](https://aws.amazon.com/route53/).
 - The SSL certificates for HTTPS are provided by [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/).
