@@ -1,12 +1,12 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import {Alert, Button, Container, Form, InputGroup, Nav, Navbar, Tab} from "react-bootstrap";
-import {Certificate} from './data';
+import {CertResponse} from './data';
 import './App.css';
 import {InfoGroup} from "./InfoGroup";
 
 export const App = () => {
   const [url, setUrl] = useState<string>("");
-  const [certs, setCerts] = useState<Certificate[]>([]);
+  const [data, setData] = useState<CertResponse>({certs:[], cert_chain: ""});
   const [err, setErr] = useState<string>("");
 
   // Fetches the certificates for the URL from the API
@@ -19,11 +19,11 @@ export const App = () => {
       body: JSON.stringify({domain: url}),
     })
     if (!response.ok) {
-      setCerts([]);
+      setData({certs:[], cert_chain: ""});
       setErr(await response.text());
     } else {
-      const certsJson: { certs: Certificate[] } = await response.json();
-      setCerts(certsJson.certs);
+      const data: CertResponse = await response.json();
+      setData(data);
       setErr("");
     }
   }
@@ -39,7 +39,7 @@ export const App = () => {
 
   const reset = () => {
     setUrl("");
-    setCerts([]);
+    setData({certs:[], cert_chain: ""});
     setErr("");
   }
 
@@ -62,10 +62,10 @@ export const App = () => {
         {err &&
         <Alert variant="danger">{err}</Alert>
         }
-        {certs.length > 0 &&
+        {data.certs.length > 0 && data.cert_chain.length > 0 &&
         <Tab.Container defaultActiveKey="cert-0">
           <Nav justify variant="tabs" defaultActiveKey="cert-0">
-            {certs.map((cert, idx) => (
+            {data.certs.map((cert, idx) => (
               <Nav.Item key={idx}>
                 <Nav.Link eventKey={'cert-' + idx}>
                   {cert.subject.common_name}
@@ -74,9 +74,9 @@ export const App = () => {
             ))}
           </Nav>
           <Tab.Content>
-            {certs.map((cert, idx) => (
+            {data.certs.map((cert, idx) => (
               <Tab.Pane key={idx} eventKey={'cert-' + idx}>
-                <InfoGroup cert={cert} />
+                <InfoGroup cert={cert} certChain={data.cert_chain} />
               </Tab.Pane>
             ))}
           </Tab.Content>

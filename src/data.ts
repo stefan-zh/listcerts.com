@@ -1,3 +1,8 @@
+export interface CertResponse {
+  certs: Certificate[],
+  cert_chain: string
+}
+
 export interface Certificate {
   subject: Name;
   issuer: Name;

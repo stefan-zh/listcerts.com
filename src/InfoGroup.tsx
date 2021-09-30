@@ -2,14 +2,14 @@ import React from 'react';
 import './InfoGroup.css';
 import {Certificate, CryptoInfo, Name, PublicKey} from "./data";
 
-export const InfoGroup = ({cert}: {cert: Certificate}) => (
+export const InfoGroup = ({cert, certChain}: {cert: Certificate, certChain: string}) => (
   <>
     {toNameGroup(cert.subject, "Subject")}
     {toNameGroup(cert.issuer, "Issuer")}
     {toValidity(cert)}
     {cert.sans && toSANs(cert.sans)}
     {toPubKeyInfo(cert.pub_key_info)}
-    {toCryptoInfo(cert.crypto_info)}
+    {toCryptoInfo(cert.crypto_info, certChain)}
     {toFingerprints(cert)}
     {toBasicConstraints(cert.ca)}
     {toKeyUsages(cert.key_usage, "Key")}
@@ -127,9 +127,11 @@ const toPubKeyInfo = (pubKey: PublicKey) => (
 );
 
 // Produces the Crypto Information
-const toCryptoInfo = (cryptoInfo: CryptoInfo) => {
-  const blob = new Blob([cryptoInfo.pem]);
-  const url = URL.createObjectURL(blob);
+const toCryptoInfo = (cryptoInfo: CryptoInfo, certChain: string) => {
+  const certPEM = new Blob([cryptoInfo.pem]);
+  const certUrl = URL.createObjectURL(certPEM);
+  const certChainPEM = new Blob([certChain]);
+  const certChainUrl = URL.createObjectURL(certChainPEM)
   return (
     <div className="info-group crypto-info">
       <span className="info-group-title">Crypto Info</span>
@@ -148,7 +150,10 @@ const toCryptoInfo = (cryptoInfo: CryptoInfo) => {
       </div>
       <div className="info-item">
         <label>Download</label>
-        <a href={url} download="crt.pem">PEM</a>
+        <div>
+          <a href={certUrl} download="crt.pem">PEM (cert)</a>
+          <a href={certChainUrl} download="chain.pem">PEM (chain)</a>
+        </div>
       </div>
     </div>
   );
