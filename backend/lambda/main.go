@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 type Request events.APIGatewayProxyRequest
@@ -18,7 +19,8 @@ type DomainRequest struct {
 }
 
 type CertsResponse struct {
-	Certs []Certificate `json:"certs"`
+	Certs     []Certificate `json:"certs"`
+	CertChain string        `json:"cert_chain"`
 }
 
 func HandleRequest(_ context.Context, req Request) (Response, error) {
@@ -43,10 +45,13 @@ func HandleRequest(_ context.Context, req Request) (Response, error) {
 		return Response{StatusCode: 404, Body: err.Error()}, nil
 	}
 	resp := CertsResponse{Certs: []Certificate{}}
+	var sb strings.Builder
 	for _, cert := range domainResp.TLS.VerifiedChains[0] {
 		c := ParseCertificate(cert)
 		resp.Certs = append(resp.Certs, *c)
+		sb.WriteString(c.CryptoInfo.RawPEM)
 	}
+	resp.CertChain = sb.String()
 	certsJson, _ := json.Marshal(resp)
 	return Response{
 		StatusCode: 200,

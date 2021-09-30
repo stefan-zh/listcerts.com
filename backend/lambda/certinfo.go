@@ -64,23 +64,23 @@ var (
 
 // Certificate represents a JSON description of x509.Certificate
 type Certificate struct {
-	Subject           Name          `json:"subject,omitempty"`
-	Issuer            Name          `json:"issuer,omitempty"`
-	NotBefore         time.Time     `json:"not_before"`
-	NotAfter          time.Time     `json:"not_after"`
-	SANs              []string      `json:"sans,omitempty"`
-	PubKeyInfo        PublicKey     `json:"pub_key_info"`
-	Misc              Miscellaneous `json:"misc"`
-	SHA256            string        `json:"sha256"`
-	SHA1              string        `json:"sha1"`
-	IsCA              bool          `json:"ca"`
-	KeyUsage          []string      `json:"key_usage,omitempty"`
-	ExtendedKeyUsages []string      `json:"extended_key_usages,omitempty"`
-	SKI               string        `json:"subject_key_id"`
-	AKI               string        `json:"authority_key_id"`
-	CRLEndpoints      []string      `json:"crl_endpoints,omitempty"`
-	OCSPServer        []string      `json:"ocsp_server,omitempty"`
-	IssuingCertURL    []string      `json:"issuing_cert_url,omitempty"`
+	Subject           Name       `json:"subject,omitempty"`
+	Issuer            Name       `json:"issuer,omitempty"`
+	NotBefore         time.Time  `json:"not_before"`
+	NotAfter          time.Time  `json:"not_after"`
+	SANs              []string   `json:"sans,omitempty"`
+	PubKeyInfo        PublicKey  `json:"pub_key_info"`
+	CryptoInfo        CryptoInfo `json:"crypto_info"`
+	SHA256            string     `json:"sha256"`
+	SHA1              string     `json:"sha1"`
+	IsCA              bool       `json:"ca"`
+	KeyUsage          []string   `json:"key_usage,omitempty"`
+	ExtendedKeyUsages []string   `json:"extended_key_usages,omitempty"`
+	SKI               string     `json:"subject_key_id"`
+	AKI               string     `json:"authority_key_id"`
+	CRLEndpoints      []string   `json:"crl_endpoints,omitempty"`
+	OCSPServer        []string   `json:"ocsp_server,omitempty"`
+	IssuingCertURL    []string   `json:"issuing_cert_url,omitempty"`
 }
 
 type Name struct {
@@ -98,7 +98,7 @@ type PublicKey struct {
 	Value     string `json:"value"`
 }
 
-type Miscellaneous struct {
+type CryptoInfo struct {
 	SerialNumber       string `json:"serial_number"`
 	SignatureAlgorithm string `json:"signature_algorithm"`
 	Version            int    `json:"version,omitempty"`
@@ -114,7 +114,7 @@ func ParseCertificate(cert *x509.Certificate) *Certificate {
 		NotAfter:          cert.NotAfter,
 		SANs:              cert.DNSNames,
 		PubKeyInfo:        ParsePubKey(cert),
-		Misc:              ParseMiscellaneous(cert),
+		CryptoInfo:        ParseCryptoInfo(cert),
 		SHA256:            sha256hex(cert.Raw),
 		SHA1:              sha1hex(cert.Raw),
 		IsCA:              cert.IsCA,
@@ -146,9 +146,9 @@ func ParseName(name pkix.Name) Name {
 	return n
 }
 
-// ParseMiscellaneous parses the miscellaneous properties of the Certificate
-func ParseMiscellaneous(cert *x509.Certificate) Miscellaneous {
-	n := Miscellaneous{
+// ParseCryptoInfo parses the miscellaneous properties of the Certificate
+func ParseCryptoInfo(cert *x509.Certificate) CryptoInfo {
+	n := CryptoInfo{
 		SerialNumber:       formatID(cert.SerialNumber.Bytes()),
 		SignatureAlgorithm: SignatureAlgorithmToString[cert.SignatureAlgorithm],
 		Version:            cert.Version,
