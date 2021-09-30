@@ -146,7 +146,7 @@ func ParseName(name pkix.Name) Name {
 	return n
 }
 
-// ParseCryptoInfo parses the miscellaneous properties of the Certificate
+// ParseCryptoInfo parses the crypto information of the Certificate
 func ParseCryptoInfo(cert *x509.Certificate) CryptoInfo {
 	n := CryptoInfo{
 		SerialNumber:       formatID(cert.SerialNumber.Bytes()),

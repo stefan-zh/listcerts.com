@@ -5,7 +5,7 @@ export interface Certificate {
   not_after: Date;
   sans: string[] | undefined;
   pub_key_info: PublicKey;
-  misc: Miscellaneous;
+  crypto_info: CryptoInfo;
   sha256: string;
   sha1: string;
   ca: boolean;
@@ -33,7 +33,7 @@ export interface PublicKey {
   value: string;
 }
 
-export interface Miscellaneous {
+export interface CryptoInfo {
   serial_number: string;
   signature_algorithm: string;
   version: number;

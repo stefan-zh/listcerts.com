@@ -1,6 +1,6 @@
 import React from 'react';
 import './InfoGroup.css';
-import {Certificate, Miscellaneous, Name, PublicKey} from "./data";
+import {Certificate, CryptoInfo, Name, PublicKey} from "./data";
 
 export const InfoGroup = ({cert}: {cert: Certificate}) => (
   <>
@@ -9,7 +9,7 @@ export const InfoGroup = ({cert}: {cert: Certificate}) => (
     {toValidity(cert)}
     {cert.sans && toSANs(cert.sans)}
     {toPubKeyInfo(cert.pub_key_info)}
-    {toMiscellaneous(cert.misc)}
+    {toCryptoInfo(cert.crypto_info)}
     {toFingerprints(cert)}
     {toBasicConstraints(cert.ca)}
     {toKeyUsages(cert.key_usage, "Key")}
@@ -126,25 +126,25 @@ const toPubKeyInfo = (pubKey: PublicKey) => (
   </div>
 );
 
-// Produces the Miscellaneous information
-const toMiscellaneous = (misc: Miscellaneous) => {
-  const blob = new Blob([misc.pem]);
+// Produces the Crypto Information
+const toCryptoInfo = (cryptoInfo: CryptoInfo) => {
+  const blob = new Blob([cryptoInfo.pem]);
   const url = URL.createObjectURL(blob);
   return (
-    <div className="info-group miscellaneous">
-      <span className="info-group-title">Miscellaneous</span>
+    <div className="info-group crypto-info">
+      <span className="info-group-title">Crypto Info</span>
       <div />
       <div className="info-item">
         <label>Serial Number</label>
-        <span>{misc.serial_number}</span>
+        <span>{cryptoInfo.serial_number}</span>
       </div>
       <div className="info-item">
         <label>Signature Algorithm</label>
-        <span>{misc.signature_algorithm}</span>
+        <span>{cryptoInfo.signature_algorithm}</span>
       </div>
       <div className="info-item">
         <label>Version</label>
-        <span>{misc.version}</span>
+        <span>{cryptoInfo.version}</span>
       </div>
       <div className="info-item">
         <label>Download</label>
