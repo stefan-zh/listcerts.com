@@ -45,6 +45,9 @@ func HandleRequest(_ context.Context, req Request) (Response, error) {
 		return Response{StatusCode: 404, Body: err.Error()}, nil
 	}
 	resp := CertsResponse{Certs: []Certificate{}}
+	if domainResp.TLS == nil {
+		return Response{StatusCode: 400, Body: "The website did not present a TLS connection."}, nil
+	}
 	var sb strings.Builder
 	for _, cert := range domainResp.TLS.VerifiedChains[0] {
 		c := ParseCertificate(cert)
