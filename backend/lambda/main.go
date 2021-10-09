@@ -24,6 +24,9 @@ type CertsResponse struct {
 }
 
 func HandleRequest(_ context.Context, req Request) (Response, error) {
+	if !check(req) {
+		return Response{StatusCode: 400}, nil
+	}
 	var domReq DomainRequest
 	// parse request
 	err := json.Unmarshal([]byte(req.Body), &domReq)
