@@ -1,5 +1,5 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
-import {Alert, Button, Container, Form, InputGroup, Nav, Navbar, Tab} from "react-bootstrap";
+import {Alert, Button, Container, Form, InputGroup, Nav, Navbar, Spinner, Tab} from "react-bootstrap";
 import {CertResponse} from './data';
 import './App.css';
 import {InfoGroup} from "./InfoGroup";
@@ -7,10 +7,12 @@ import {InfoGroup} from "./InfoGroup";
 export const App = () => {
   const [url, setUrl] = useState<string>("");
   const [data, setData] = useState<CertResponse>({certs:[], cert_chain: ""});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [err, setErr] = useState<string>("");
 
   // Fetches the certificates for the URL from the API
   const fetchCerts = async (url: string) => {
+    setIsLoading(true);
     const response = await window.fetch('https://s2e4by92j1.execute-api.eu-central-1.amazonaws.com/prod/certs', {
       method: 'POST',
       headers: {
@@ -20,12 +22,14 @@ export const App = () => {
     })
     if (!response.ok) {
       setData({certs:[], cert_chain: ""});
-      setErr(await response.text());
+      const err = await response.text();
+      setErr(err.length === 0 ? response.statusText : err);
     } else {
       const data: CertResponse = await response.json();
       setData(data);
       setErr("");
     }
+    setIsLoading(false);
   }
 
   const onInput = (input: ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +59,10 @@ export const App = () => {
           <InputGroup className="search">
             <Form.Control size="lg" type="text" onChange={onInput} placeholder="https://www.example.com" value={url}/>
             <InputGroup.Text>
-              <Button id="submit" variant="light" type="submit">Search</Button>
+              <Button id="submit" variant="light" type="submit">
+                {isLoading && <Spinner as="span" animation="border" size="sm" variant="secondary" className="spinner"/>}
+                Search
+              </Button>
             </InputGroup.Text>
           </InputGroup>
         </Form>

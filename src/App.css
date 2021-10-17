@@ -18,6 +18,10 @@
     border: none;
 }
 
+.spinner {
+    margin-right: 10px;
+}
+
 .nav-item a {
     cursor: pointer;
 }
