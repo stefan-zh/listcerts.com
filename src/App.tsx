@@ -57,7 +57,7 @@ export const App = () => {
       <Container className="content">
         <Form onSubmit={onSubmit}>
           <InputGroup className="search">
-            <Form.Control size="lg" type="text" onChange={onInput} placeholder="https://www.example.com" value={url}/>
+            <Form.Control size="lg" type="text" autoFocus onChange={onInput} placeholder="https://www.example.com" value={url}/>
             <InputGroup.Text>
               <Button id="submit" variant="light" type="submit">
                 {isLoading && <Spinner as="span" animation="border" size="sm" variant="secondary" className="spinner"/>}
