@@ -40,10 +40,10 @@ func HandleRequest(_ context.Context, req Request) (Response, error) {
 	}
 	// check URL begins with https://
 	if u.Scheme != "https" {
-		return Response{StatusCode: 400, Body: "The requested URL must begin with https://"}, nil
+		u.Scheme = "https"
 	}
 	client := &http.Client{}
-	domainResp, err := client.Get(domReq.Domain)
+	domainResp, err := client.Get(u.String())
 	if err != nil {
 		return Response{StatusCode: 404, Body: err.Error()}, nil
 	}
