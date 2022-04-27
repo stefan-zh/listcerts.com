@@ -28,6 +28,8 @@ The code is strongly typed with Typescript.
 ### Back end
 
 - The back end is written in [Go](https://golang.org/). It is executed by an AWS Lambda function.
+- To build it, run `GOOS=linux GOARCH=amd64 go build -o main .` 
+- To upload it to AWS Lambda, compress the `main` file to `.zip` archive and upload it.
 
 ### Hosting
 

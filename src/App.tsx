@@ -7,6 +7,7 @@ import {InfoGroup} from "./InfoGroup";
 export const App = () => {
   const [url, setUrl] = useState<string>("");
   const [data, setData] = useState<CertResponse>({certs:[], cert_chain: ""});
+  const [activeTab, setActiveTab] = useState<string>("cert-0");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [err, setErr] = useState<string>("");
 
@@ -26,6 +27,7 @@ export const App = () => {
       setErr(err.length === 0 ? response.statusText : err);
     } else {
       const data: CertResponse = await response.json();
+      setActiveTab("cert-0");
       setData(data);
       setErr("");
     }
@@ -35,6 +37,9 @@ export const App = () => {
   const onInput = (input: ChangeEvent<HTMLInputElement>) => {
     setUrl(input.target.value);
   }
+
+  // controls the active tab
+  const onTabSelect = (tab: string | null) => setActiveTab(tab || "cert-0");
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -70,8 +75,8 @@ export const App = () => {
         <Alert variant="danger">{err}</Alert>
         }
         {data.certs.length > 0 && data.cert_chain.length > 0 &&
-        <Tab.Container defaultActiveKey="cert-0">
-          <Nav justify variant="tabs" defaultActiveKey="cert-0">
+        <Tab.Container activeKey={activeTab} onSelect={onTabSelect}>
+          <Nav justify variant="tabs">
             {data.certs.map((cert, idx) => (
               <Nav.Item key={idx}>
                 <Nav.Link eventKey={'cert-' + idx}>
