@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FormEvent, useState} from 'react';
+import {ChangeEvent, FormEvent, useState} from 'react';
 import {Alert, Button, Container, Form, InputGroup, Nav, Navbar, Spinner, Tab} from "react-bootstrap";
 import {CertResponse} from './data';
 import './App.css';

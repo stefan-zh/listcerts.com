@@ -11,9 +11,9 @@ largely inspired by that.
 
 ## How to start this project locally
 
-The front end of this project is built with [create-react-app](https://create-react-app.dev). If you have Node installed
-locally, you can run this app by typing `npm start` in the terminal. You can access [http://localhost:3000](http://localhost:3000) 
-to view it in the browser.
+The front end of this project is built with React and bundled with Webpack. If you have [Node](https://nodejs.org/en/)
+installed locally, you can run this app by first installing all dependencies `npm i` and then starting the project with 
+`npm start` in the terminal. You can access [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits, and you will also see any lint errors in the console.
 
@@ -21,9 +21,9 @@ The page will reload if you make edits, and you will also see any lint errors in
 
 ### Front end
 
-- I used [Create React App](https://create-react-app.dev) for bootstrapping a [React](https://reactjs.org/) front end. 
-The code is strongly typed with Typescript.
+- I use [React](https://reactjs.org/) for the front end. The code is strongly typed with Typescript.
 - The UI is built with [React Bootstrap](https://react-bootstrap.github.io/) components.
+- The code is bundled with [Webpack](https://webpack.js.org/) and follows [ES6](https://www.w3schools.com/js/js_es6.asp).
 
 ### Back end
 

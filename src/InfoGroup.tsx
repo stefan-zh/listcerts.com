@@ -1,4 +1,3 @@
-import React from 'react';
 import './InfoGroup.css';
 import {Certificate, CryptoInfo, Name, PublicKey} from "./data";
 
