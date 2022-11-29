@@ -11,7 +11,13 @@ export const App = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [err, setErr] = useState<string>("");
 
-  // Fetches the certificates for the URL from the API
+  /**
+   * Fetches the certificates for the URL from the API.
+   * 
+   * NOTE: This has to be done in a backend API since it is not possible to retrieve 
+   * certificate information in the browser: https://stackoverflow.com/q/2604399/9698467
+   * Also, the 'node:https' module is not available in the browser/client.
+   */
   const fetchCerts = async (url: string) => {
     setIsLoading(true);
     const response = await window.fetch('https://s2e4by92j1.execute-api.eu-central-1.amazonaws.com/prod/certs', {
