@@ -28,8 +28,10 @@ The page will reload if you make edits, and you will also see any lint errors in
 ### Back end
 
 - The back end is written in [Go](https://golang.org/). It is executed by an AWS Lambda function.
-- To build it, run `GOOS=linux GOARCH=amd64 go build -o main .` 
-- To upload it to AWS Lambda, compress the `main` file to `.zip` archive and upload it.
+- To build it, run `GOARCH=arm64 GOOS=linux go build -tags lambda.norpc -o bootstrap .` This builds the binary for the new
+Graviton2 CPUs and removes the RPC calls from binary (the RPC calls are not present in the new `provided.al2` runtime):
+https://aws.amazon.com/blogs/compute/migrating-aws-lambda-functions-from-the-go1-x-runtime-to-the-custom-runtime-on-amazon-linux-2/
+- To upload it to AWS Lambda, compress the `bootstrap` file to a `.zip` archive and upload it.
 
 ### Hosting
 
